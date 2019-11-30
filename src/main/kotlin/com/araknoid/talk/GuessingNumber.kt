@@ -35,6 +35,10 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
     askToContinue(name, numberToGuess).unsafeRunSync()
 }
 
+sealed class GameResult
+object Win : GameResult()
+data class Loss(val numberToGuess: Int) : GameResult()
+
 private fun askForNumber(name: String): IO<Try<Int>> {
     return putStrLn("Dear $name, please guess a number from 1 to 5:")
         .flatMap { getStrLn() }
