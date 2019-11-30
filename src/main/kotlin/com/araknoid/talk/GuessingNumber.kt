@@ -34,7 +34,7 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
 
     putStrLn("Do you want to continue, $name?").unsafeRunSync()
 
-    val answer = readLine()
+    val answer = getStrLn().unsafeRunSync()
     when {
         answer == "n" -> Unit
         else -> gameLoop(numberToGuess, name)
@@ -44,3 +44,4 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
 fun String.safeToInt() = Try { this.toInt() }
 
 fun putStrLn(input: String): IO<Unit> = IO { println(input) }
+fun getStrLn(): IO<String> = IO { readLine() as String }
