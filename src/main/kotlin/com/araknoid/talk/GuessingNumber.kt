@@ -20,9 +20,7 @@ fun game(numberToGuess: () -> Int) {
 private fun gameLoop(numberToGuess: () -> Int, name: String) {
     val num = numberToGuess()
 
-    putStrLn("Dear $name, please guess a number from 1 to 5:")
-        .flatMap { getStrLn() }
-        .map { it.safeToInt() }
+    askForNumber(name)
         .map {
             it.fold(
                 { println("You guessed wrong, $name! The number was: $num") },
@@ -35,6 +33,12 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
         .unsafeRunSync()
 
     askToContinue(name, numberToGuess).unsafeRunSync()
+}
+
+private fun askForNumber(name: String): IO<Try<Int>> {
+    return putStrLn("Dear $name, please guess a number from 1 to 5:")
+        .flatMap { getStrLn() }
+        .map { it.safeToInt() }
 }
 
 private fun askToContinue(name: String, numberToGuess: () -> Int): IO<Unit> {
