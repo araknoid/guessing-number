@@ -47,6 +47,13 @@ fun Try<Int>.findOutGameResult(numberToGuess: Int) =
         is Success -> if (value == numberToGuess) Win else Loss(numberToGuess)
     }
 
+fun printGameResult(gameResult: GameResult, name: String) =
+    when (gameResult) {
+        is Win -> putStrLn("You guessed right, $name!")
+        is Loss -> putStrLn("You guessed wrong, $name! The number was: ${gameResult.numberToGuess}")
+    }
+
+
 private fun askForNumber(name: String): IO<Try<Int>> {
     return putStrLn("Dear $name, please guess a number from 1 to 5:")
         .flatMap { getStrLn() }
