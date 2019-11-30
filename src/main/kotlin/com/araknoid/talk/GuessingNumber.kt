@@ -11,13 +11,12 @@ fun main() {
 }
 
 fun game(numberToGuess: () -> Int) {
-    println("What is your name?")
+    val name = putStrLn("What is your name?")
+        .flatMap { getStrLn() }.unsafeRunSync()
 
-    val name = readLine() as String
-    println("""Hello, $name, welcome to the game!""")
+    putStrLn("""Hello, $name, welcome to the game!""").unsafeRunSync()
 
-    gameLoop(numberToGuess, name)
-        .unsafeRunSync()
+    gameLoop(numberToGuess, name).unsafeRunSync()
 }
 
 private fun gameLoop(numberToGuess: () -> Int, name: String) =
