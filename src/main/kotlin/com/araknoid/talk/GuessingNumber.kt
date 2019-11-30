@@ -32,13 +32,15 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
             }
         )
 
-    val answer = putStrLn("Do you want to continue, $name?")
+    putStrLn("Do you want to continue, $name?")
         .flatMap { getStrLn() }
+        .map {
+            when {
+                it == "n" -> Unit
+                else -> gameLoop(numberToGuess, name)
+            }
+        }
         .unsafeRunSync()
-    when {
-        answer == "n" -> Unit
-        else -> gameLoop(numberToGuess, name)
-    }
 }
 
 fun String.safeToInt() = Try { this.toInt() }
