@@ -1,5 +1,7 @@
 package com.araknoid.talk
 
+import arrow.core.Failure
+import arrow.core.Success
 import arrow.core.Try
 import arrow.effects.IO
 import kotlin.random.Random
@@ -38,6 +40,13 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
 sealed class GameResult
 object Win : GameResult()
 data class Loss(val numberToGuess: Int) : GameResult()
+
+fun findOutGameResult(inputNumber: Try<Int>, numberToGuess: Int): GameResult {
+    return when (inputNumber) {
+        is Failure -> Loss(numberToGuess)
+        is Success -> if (inputNumber.value == numberToGuess) Win else Loss(numberToGuess)
+    }
+}
 
 private fun askForNumber(name: String): IO<Try<Int>> {
     return putStrLn("Dear $name, please guess a number from 1 to 5:")
