@@ -32,7 +32,11 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
             }
         )
 
-    putStrLn("Do you want to continue, $name?")
+    askToContinue(name, numberToGuess).unsafeRunSync()
+}
+
+private fun askToContinue(name: String, numberToGuess: () -> Int): IO<Unit> {
+    return putStrLn("Do you want to continue, $name?")
         .flatMap { getStrLn() }
         .map {
             when {
@@ -40,7 +44,6 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
                 else -> gameLoop(numberToGuess, name)
             }
         }
-        .unsafeRunSync()
 }
 
 fun String.safeToInt() = Try { this.toInt() }
