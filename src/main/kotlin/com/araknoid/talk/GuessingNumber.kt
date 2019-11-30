@@ -3,6 +3,10 @@ package com.araknoid.talk
 import kotlin.random.Random
 
 fun main() {
+    game { Random.nextInt(5) + 1 }
+}
+
+fun game(numberToGuess: () -> Int) {
     println("What is your name?")
 
     val name = readLine()
@@ -11,7 +15,7 @@ fun main() {
     var exec = true
 
     while (exec) {
-        val num = Random.nextInt(5) + 1
+        val num = numberToGuess()
 
         println("Dear $name, please guess a number from 1 to 5:")
 
