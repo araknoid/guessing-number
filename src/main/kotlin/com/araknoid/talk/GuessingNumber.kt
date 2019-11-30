@@ -34,8 +34,8 @@ fun game(numberToGuess: () -> Int) {
 
         val answer = readLine()
         when {
-            answer == "y" -> exec = true
             answer == "n" -> exec = false
+            else -> exec = true
         }
     }
 }
