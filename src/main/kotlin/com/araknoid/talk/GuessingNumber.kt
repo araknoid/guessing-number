@@ -1,5 +1,6 @@
 package com.araknoid.talk
 
+import arrow.core.Try
 import kotlin.random.Random
 
 fun main() {
@@ -19,10 +20,14 @@ fun game(numberToGuess: () -> Int) {
 
         println("Dear $name, please guess a number from 1 to 5:")
 
-        val guess = readLine()?.toInt()
-
-        if (guess == num) println("You guessed right, $name!")
-        else println("You guessed wrong, $name! The number was: $num")
+        safeToInt(readLine())
+            .fold(
+                {println("You guessed wrong, $name! The number was: $num")},
+                {guess ->
+                    if (guess == num) println("You guessed right, $name!")
+                    else println("You guessed wrong, $name! The number was: $num")
+                }
+            )
 
         println("Do you want to continue, $name?")
 
@@ -33,3 +38,5 @@ fun game(numberToGuess: () -> Int) {
         }
     }
 }
+
+fun safeToInt(input: String?) = Try { input?.toInt() }
