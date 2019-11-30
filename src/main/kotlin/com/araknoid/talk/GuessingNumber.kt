@@ -41,12 +41,11 @@ sealed class GameResult
 object Win : GameResult()
 data class Loss(val numberToGuess: Int) : GameResult()
 
-fun findOutGameResult(inputNumber: Try<Int>, numberToGuess: Int): GameResult {
-    return when (inputNumber) {
+fun Try<Int>.findOutGameResult(numberToGuess: Int) =
+    when (this) {
         is Failure -> Loss(numberToGuess)
-        is Success -> if (inputNumber.value == numberToGuess) Win else Loss(numberToGuess)
+        is Success -> if (value == numberToGuess) Win else Loss(numberToGuess)
     }
-}
 
 private fun askForNumber(name: String): IO<Try<Int>> {
     return putStrLn("Dear $name, please guess a number from 1 to 5:")
