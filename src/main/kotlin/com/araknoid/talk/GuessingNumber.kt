@@ -11,11 +11,10 @@ fun main() {
 }
 
 fun game(numberToGuess: () -> Int) {
-    val name = askName().unsafeRunSync()
-
-    welcomeMessage(name).unsafeRunSync()
-
-    gameLoop(numberToGuess, name).unsafeRunSync()
+    askName()
+        .flatMap { welcomeMessage(it) }
+        .flatMap { gameLoop(numberToGuess, it) }
+        .unsafeRunSync()
 }
 
 private fun welcomeMessage(name: String) = putStrLn("""Hello, $name, welcome to the game!""").map { name }
