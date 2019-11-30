@@ -22,16 +22,17 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
 
     putStrLn("Dear $name, please guess a number from 1 to 5:")
         .flatMap { getStrLn() }
+        .map { it.safeToInt() }
         .map {
-            it.safeToInt()
-                .fold(
-                    { println("You guessed wrong, $name! The number was: $num") },
-                    { guess ->
-                        if (guess == num) println("You guessed right, $name!")
-                        else println("You guessed wrong, $name! The number was: $num")
-                    }
-                )
-        }.unsafeRunSync()
+            it.fold(
+                { println("You guessed wrong, $name! The number was: $num") },
+                { guess ->
+                    if (guess == num) println("You guessed right, $name!")
+                    else println("You guessed wrong, $name! The number was: $num")
+                }
+            )
+        }
+        .unsafeRunSync()
 
     askToContinue(name, numberToGuess).unsafeRunSync()
 }
