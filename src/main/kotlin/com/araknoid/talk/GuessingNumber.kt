@@ -18,7 +18,7 @@ fun game(numberToGuess: () -> Int) {
     gameLoop(numberToGuess, name).unsafeRunSync()
 }
 
-private fun welcomeMessage(name: String) = putStrLn("""Hello, $name, welcome to the game!""")
+private fun welcomeMessage(name: String) = putStrLn("""Hello, $name, welcome to the game!""").map { name }
 
 private fun askName() = putStrLn("What is your name?")
     .flatMap { getStrLn() }
