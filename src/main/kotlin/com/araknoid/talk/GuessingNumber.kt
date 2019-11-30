@@ -10,13 +10,13 @@ fun main() {
 fun game(numberToGuess: () -> Int) {
     println("What is your name?")
 
-    val name = readLine()
+    val name = readLine() as String
     println("""Hello, $name, welcome to the game!""")
 
     gameLoop(numberToGuess, name)
 }
 
-private fun gameLoop(numberToGuess: () -> Int, name: String?) {
+private fun gameLoop(numberToGuess: () -> Int, name: String) {
     val num = numberToGuess()
 
     println("Dear $name, please guess a number from 1 to 5:")
