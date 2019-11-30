@@ -20,7 +20,8 @@ fun game(numberToGuess: () -> Int) {
 
         println("Dear $name, please guess a number from 1 to 5:")
 
-        safeToInt(readLine())
+        (readLine() as String)
+            .safeToInt()
             .fold(
                 {println("You guessed wrong, $name! The number was: $num")},
                 {guess ->
@@ -39,4 +40,4 @@ fun game(numberToGuess: () -> Int) {
     }
 }
 
-fun safeToInt(input: String?) = Try { input?.toInt() }
+fun String.safeToInt() = Try { this.toInt() }
