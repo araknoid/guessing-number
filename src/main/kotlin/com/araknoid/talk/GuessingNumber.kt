@@ -20,17 +20,18 @@ fun game(numberToGuess: () -> Int) {
 private fun gameLoop(numberToGuess: () -> Int, name: String) {
     val num = numberToGuess()
 
-    println("Dear $name, please guess a number from 1 to 5:")
-
-    (readLine() as String)
-        .safeToInt()
-        .fold(
-            { println("You guessed wrong, $name! The number was: $num") },
-            { guess ->
-                if (guess == num) println("You guessed right, $name!")
-                else println("You guessed wrong, $name! The number was: $num")
-            }
-        )
+    putStrLn("Dear $name, please guess a number from 1 to 5:")
+        .flatMap { getStrLn() }
+        .map {
+            it.safeToInt()
+                .fold(
+                    { println("You guessed wrong, $name! The number was: $num") },
+                    { guess ->
+                        if (guess == num) println("You guessed right, $name!")
+                        else println("You guessed wrong, $name! The number was: $num")
+                    }
+                )
+        }.unsafeRunSync()
 
     askToContinue(name, numberToGuess).unsafeRunSync()
 }
