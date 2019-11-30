@@ -1,6 +1,7 @@
 package com.araknoid.talk
 
 import arrow.core.Try
+import arrow.effects.IO
 import kotlin.random.Random
 
 fun main() {
@@ -31,7 +32,7 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
             }
         )
 
-    println("Do you want to continue, $name?")
+    putStrLn("Do you want to continue, $name?").unsafeRunSync()
 
     val answer = readLine()
     when {
@@ -41,3 +42,5 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
 }
 
 fun String.safeToInt() = Try { this.toInt() }
+
+fun putStrLn(input: String): IO<Unit> = IO { println(input) }
