@@ -23,15 +23,8 @@ private fun gameLoop(numberToGuess: () -> Int, name: String) {
     val num = numberToGuess()
 
     askForNumber(name)
-        .map {
-            it.fold(
-                { println("You guessed wrong, $name! The number was: $num") },
-                { guess ->
-                    if (guess == num) println("You guessed right, $name!")
-                    else println("You guessed wrong, $name! The number was: $num")
-                }
-            )
-        }
+        .map { it.findOutGameResult(num) }
+        .flatMap { printGameResult(it, name) }
         .unsafeRunSync()
 
     askToContinue(name, numberToGuess).unsafeRunSync()
