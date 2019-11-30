@@ -20,10 +20,9 @@ fun game(numberToGuess: () -> Int) {
 }
 
 private fun gameLoop(numberToGuess: () -> Int, name: String) {
-    val num = numberToGuess()
 
     askForNumber(name)
-        .map { it.findOutGameResult(num) }
+        .map { it.findOutGameResult(numberToGuess()) }
         .flatMap { printGameResult(it, name) }
         .unsafeRunSync()
 
