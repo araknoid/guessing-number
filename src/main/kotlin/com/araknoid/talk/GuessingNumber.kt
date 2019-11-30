@@ -13,30 +13,30 @@ fun game(numberToGuess: () -> Int) {
     val name = readLine()
     println("""Hello, $name, welcome to the game!""")
 
-    var exec = true
+    gameLoop(numberToGuess, name)
+}
 
-    while (exec) {
-        val num = numberToGuess()
+private fun gameLoop(numberToGuess: () -> Int, name: String?) {
+    val num = numberToGuess()
 
-        println("Dear $name, please guess a number from 1 to 5:")
+    println("Dear $name, please guess a number from 1 to 5:")
 
-        (readLine() as String)
-            .safeToInt()
-            .fold(
-                {println("You guessed wrong, $name! The number was: $num")},
-                {guess ->
-                    if (guess == num) println("You guessed right, $name!")
-                    else println("You guessed wrong, $name! The number was: $num")
-                }
-            )
+    (readLine() as String)
+        .safeToInt()
+        .fold(
+            { println("You guessed wrong, $name! The number was: $num") },
+            { guess ->
+                if (guess == num) println("You guessed right, $name!")
+                else println("You guessed wrong, $name! The number was: $num")
+            }
+        )
 
-        println("Do you want to continue, $name?")
+    println("Do you want to continue, $name?")
 
-        val answer = readLine()
-        when {
-            answer == "n" -> exec = false
-            else -> exec = true
-        }
+    val answer = readLine()
+    when {
+        answer == "n" -> Unit
+        else -> gameLoop(numberToGuess, name)
     }
 }
 
