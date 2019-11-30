@@ -17,15 +17,14 @@ fun game(numberToGuess: () -> Int) {
     println("""Hello, $name, welcome to the game!""")
 
     gameLoop(numberToGuess, name)
+        .unsafeRunSync()
 }
 
-private fun gameLoop(numberToGuess: () -> Int, name: String) {
+private fun gameLoop(numberToGuess: () -> Int, name: String) =
     askForNumber(name)
         .map { it.findOutGameResult(numberToGuess()) }
         .flatMap { printGameResult(it, name) }
         .flatMap { askToContinue(name, numberToGuess) }
-        .unsafeRunSync()
-}
 
 sealed class GameResult
 object Win : GameResult()
@@ -53,9 +52,9 @@ private fun askForNumber(name: String): IO<Try<Int>> {
 private fun askToContinue(name: String, numberToGuess: () -> Int): IO<Unit> {
     return putStrLn("Do you want to continue, $name?")
         .flatMap { getStrLn() }
-        .map {
+        .flatMap {
             when {
-                it == "n" -> Unit
+                it == "n" -> IO { Unit }
                 else -> gameLoop(numberToGuess, name)
             }
         }
