@@ -20,13 +20,11 @@ fun game(numberToGuess: () -> Int) {
 }
 
 private fun gameLoop(numberToGuess: () -> Int, name: String) {
-
     askForNumber(name)
         .map { it.findOutGameResult(numberToGuess()) }
         .flatMap { printGameResult(it, name) }
+        .flatMap { askToContinue(name, numberToGuess) }
         .unsafeRunSync()
-
-    askToContinue(name, numberToGuess).unsafeRunSync()
 }
 
 sealed class GameResult
